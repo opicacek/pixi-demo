@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pixi Demo Game</title>
+    <meta name="description" content="Pixi Demo Game">
+    <meta property="og:title" content="Pixi Demo Game">
+    <meta name="application-name" content="Pixi Demo Game">
+
+    <link type="image/x-icon" rel="shortcut icon" href="images/favicon.ico">
+
+    <!-- TODO -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,700" rel="stylesheet" type="text/css">
+
+    <link type="text/css" rel="stylesheet" href="/css/style.css">
+    <!--[if lt IE 9]>
+    <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body itemtype="https://schema.org/WebPage">
+    <h1>Hello</h1>
+    <div class="content">
+
+    </div>
+
+    <script type="text/javascript" src="compiled/pixi-demo.js"></script>
+    <script>
+      function DOMready() {
+        console.log('DOM is ready');
+      }
+
+      document.addEventListener('DOMContentLoaded', DOMready);
+    </script>
+  </body>
+</html>
