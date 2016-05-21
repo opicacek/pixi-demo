@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
+    babel = require('gulp-babel'),
     concat = require('gulp-concat'),
-    jshint = require('gulp-jshint'),
+    eslint = require('gulp-eslint'),
     less = require('gulp-less'),
     nodemon = require('gulp-nodemon'),
     uglify = require('gulp-uglify'),
@@ -20,15 +21,38 @@ gulp.task('less', function() {
 /* JS lint */
 gulp.task('lint', function() {
   return gulp.src('./src/js/**/*.js')
-    .pipe(jshint())
-    .pipe(jshint.reporter('jshint-stylish'))
-    .pipe(jshint.reporter('fail'));
+    .pipe(eslint({
+      extends: 'eslint:recommended',
+      ecmaFeatures: {
+        'modules': true
+      },
+      rules: {
+        'my-custom-rule': 1,
+        'strict': 2
+      },
+      globals: {
+        'jQuery': false,
+        '$': true
+      },
+      envs: [
+        'browser'
+      ]
+    }))
 });
 
 
 /* concat JS files */
 gulp.task('concat', function() {
-  return gulp.src('./src/js/**/*.js')
+  //TODO requirejs ?
+  //'./src/js/**/*.js'
+
+  return gulp.src([
+      './src/js/person.js',
+      './src/js/index.js'
+    ])
+    .pipe(babel({
+      presets: ['es2015']
+    }))
     .pipe(concat('pixi-demo.js'))
     .pipe(gulp.dest('./public/compiled/'));
 });
@@ -44,12 +68,24 @@ gulp.task('watch', function() {
 /* build project */
 gulp.task('build', function() {
   gulp.run('less', 'lint', 'concat');
-});
 
+  // concat node modules into one file
+  return gulp.src([
+      './node_modules/pixi.js/bin/pixi.min.js'
+    ])
+    .pipe(concat('node-modules.js'))
+    .pipe(gulp.dest('./public/compiled/'));
+});
 
 /* run server */
 gulp.task('server', function() {
-  nodemon({script: 'server.js', tasks: ['lint']})
+  nodemon({
+    script: 'server.js',
+    tasks: ['lint'],
+
+    //TODO ignore doesn't work
+    ignore: ['src/**/*']
+  })
     .on('restart', function() {
       console.log('Server has been restarted!')
     })
