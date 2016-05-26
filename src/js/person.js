@@ -1,5 +1,10 @@
 class Person {
   constructor(image, x, y, speed) {
+    this.x = x;
+    this.y = y;
+    this.speed = speed;
+    //----
+
     // create a texture from an image path
     const texture = PIXI.Texture.fromImage(image);
 
@@ -14,13 +19,22 @@ class Person {
     this.sprite.position.x = x;
     this.sprite.position.y = y;
 
-    this.x = x;
-    this.y = y;
-    this.speed = speed;
+    // make person clickable
+    this.sprite.interactive = true;
+
+    this.sprite
+      .on('mousedown', this::this.onHit)
+      .on('touchstart', this::this.onHit);
   }
 
   addToStage(stage) {
     stage.addChild(this.sprite);
+  }
+
+  //TODO
+  onHit() {
+    console.log('hit!');
+    this.speed = 0;
   }
 
   //TODO

@@ -8,11 +8,15 @@ var stage = new PIXI.Container();
 // -----
 
 
+
+
 // create guys
 var guys = [];
 
-for (var i = 0; i < 10; i++) {
-  let guy = new Person('images/person.png', 0, Math.random() * 600, Math.random() * 5);
+var totalGuys = 50;
+
+for (var i = 0; i < totalGuys; i++) {
+  let guy = new Person('images/person.png', Math.random() * renderer.width, Math.random() * renderer.height, Math.random() * 5);
   guy.addToStage(stage);
 
   guys.push(guy);

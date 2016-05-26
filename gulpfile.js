@@ -1,5 +1,6 @@
 var gulp = require('gulp'),
     babel = require('gulp-babel'),
+    cache = require('gulp-cached'),
     concat = require('gulp-concat'),
     eslint = require('gulp-eslint'),
     less = require('gulp-less'),
@@ -21,6 +22,7 @@ gulp.task('less', function() {
 /* JS lint */
 gulp.task('lint', function() {
   return gulp.src('./src/js/**/*.js')
+    .pipe(cache('linting'))
     .pipe(eslint({
       extends: 'eslint:recommended',
       ecmaFeatures: {
@@ -51,7 +53,7 @@ gulp.task('concat', function() {
       './src/js/index.js'
     ])
     .pipe(babel({
-      presets: ['es2015']
+      presets: ['es2015', 'stage-0']
     }))
     .pipe(concat('pixi-demo.js'))
     .pipe(gulp.dest('./public/compiled/'));
